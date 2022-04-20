@@ -1,28 +1,64 @@
-const listaDeCursos = require("../models/cursos.json");
-const fs = require("fs");
+const Curso = require("../models/Cursos");
+//const fs = require("fs");
+//const db = require("../database/index");
 
 const CursosController = {
 
-    cadastrarCursos(req, res){
+    async cadastrarCursos(req, res){
 
-        const {titulo, descricao, professor} = req.body;
+        const { titulo, descricao, professor} = req.body;
         //verifica se todos os valores foram preenchidos
         if(!titulo || !descricao || !professor){
             return res
             .status(400)
             .json({error: "Você precisa passar os atributos corretamente"});
-        }
-
-        listaDeCursos.push({
-            titulo,
-            descricao,
-            professor,
+        }       
+        const novoCurso = await Curso.create({
+            titulo, 
+            descricao, 
+            professor 
         });
 
-        fs.writeFileSync("../models/cursos.json", JSON.stringify(listaDeCursos));
-
-        res.status(201).json({message: "Cadastro efetuado com sucesso!"})
+        //res.status(201).json(novoCurso,{message: "Cadastro efetuado com sucesso!"})
     },
+
+    async buscarCursos(req, res){
+
+        const cursos = await Curso.findAll();        
+
+        res.status(200).json(cursos);
+    },
+
+    async deletarCursos(req, res) {
+        const {id} = req.params;
+
+        await Curso.destroy({
+            where: {
+                id,
+            },
+        });
+        res.json("Produto deletado")
+    },
+
+    async atualizarCursos(req, res) {
+        const {id} = req.params;
+        const { titulo, descricao, professor} = req.body;
+
+        const cursoAtualizado = await Curso.update(
+            {
+                titulo, 
+                descricao, 
+                professor
+            },
+            {
+                where: {
+                    id,
+                }
+            }
+        );
+        res.json("Produto Atualizado!")
+    },
+
 };
 
 module.exports = CursosController;
