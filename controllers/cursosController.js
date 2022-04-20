@@ -19,7 +19,7 @@ const CursosController = {
             professor 
         });
 
-        //res.status(201).json(novoCurso,{message: "Cadastro efetuado com sucesso!"})
+        res.status(201).json("Produto cadastrado!");
     },
 
     async buscarCursos(req, res){
@@ -37,7 +37,7 @@ const CursosController = {
                 id,
             },
         });
-        res.json("Produto deletado")
+        res.status(204).json("Produto deletado")
     },
 
     async atualizarCursos(req, res) {
@@ -56,7 +56,7 @@ const CursosController = {
                 }
             }
         );
-        res.json("Produto Atualizado!")
+        res.status(200).json("Produto Atualizado!")
     },
 
 };
