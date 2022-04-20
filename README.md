@@ -1,3 +1,3 @@
 # api-Din-din
 
-Criação de CRUD de cursos com o MySQL.
+Criação de uma API com CRUD de cursos com o MySQL.
